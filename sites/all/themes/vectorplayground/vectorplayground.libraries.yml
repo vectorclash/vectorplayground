@@ -13,6 +13,7 @@ home-page-shapes:
     js/plugins/BezierPlugin.min.js: {}
     js/plugins/CSSPlugin.min.js: {}
     js/plugins/MorphSVGPlugin.min.js: {}
+    js/jquery.matchHeight-min.js: {}
 
 tweenmax:
   version: 1.19.0

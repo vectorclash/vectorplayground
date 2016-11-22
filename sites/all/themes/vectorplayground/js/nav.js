@@ -23,7 +23,7 @@ function onHBClick(event) {
     TweenMax.to("#upper-bun", 0.5, {morphSVG:"#upper-line", ease:Elastic.easeOut});
     TweenMax.to("#veggie-patty", 0.5, {morphSVG:"#circle", ease:Elastic.easeOut});
     TweenMax.set("#veggie-patty", {transformOrigin:"50% 50%"});
-    TweenMax.to("#veggie-patty", 0.5, {scaleX:40, scaleY:40, alpha:0.8, fill:"rgb(11, 146, 176)", delay:0.2, ease:Bounce.easeOut});
+    TweenMax.to("#veggie-patty", 0.5, {scaleX:35, scaleY:35, alpha:0.8, fill:"rgb(11, 146, 176)", delay:0.2, ease:Bounce.easeOut});
     TweenMax.to("#lower-bun", 0.5, {morphSVG:"#lower-line", ease:Elastic.easeOut});
 
     navContainer.style.display="block";
@@ -32,6 +32,7 @@ function onHBClick(event) {
 
     TweenMax.to(navBackground, 1, {opacity:1, onStart:enableNavBackground});
 
+    TweenMax.set(hamburgerButton, {zIndex:3000});
     //TweenMax.to(hamburgerButton, 1, {className:"hamburger-icon-middle", ease:Back.easeOut});
   } else {
     isNavOpen = false;
@@ -40,9 +41,11 @@ function onHBClick(event) {
     TweenMax.to("#veggie-patty", 0.5, {scaleX:1, scaleY:1, alpha:1, fill:0xEC008C, ease:Bounce.easeOut});
     TweenMax.to("#lower-bun", 0.5, {morphSVG:"#lower-bun", ease:Elastic.easeOut});
 
-    TweenMax.to(navContainer, 0.5, {alpha:0, ease:Elastic.easeInOut, onComplete:function(){navContainer.style.display="none";}});
+    TweenMax.to(navContainer, 0.5, {alpha:0, ease:Bounce.easeOut, onComplete:function(){navContainer.style.display="none";}});
 
     TweenMax.to(navBackground, 1, {opacity:0, onComplete:disableNavBackground});
+
+    TweenMax.set(hamburgerButton, {zIndex:400});
 
     //TweenMax.to(hamburgerButton, 1, {className:"hamburger-icon-right", ease:Back.easeOut});
   }

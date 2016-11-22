@@ -134,6 +134,11 @@ function buildContent(shapeID) {
 	contentTitle.classList.add("shape-content-title-full");
 	contentImage.appendChild(contentTitle);
 
+	var closeMessage = document.createElement("h3");
+	closeMessage.classList.add("close-message");
+	closeMessage.textContent = "CLICK ANYWHERE TO CLOSE";
+	contentImage.appendChild(closeMessage);
+
 	var contentContainer = document.createElement("div");
 	contentContainer.classList.add("shape-content-container");
 	newContent.appendChild(contentContainer);
@@ -142,16 +147,6 @@ function buildContent(shapeID) {
 	contentBody.innerHTML = activeShape.bodyContent;
 	contentBody.classList.add("shape-content-body-full");
 	contentContainer.appendChild(contentBody);
-
-	var rightColumn = document.createElement("div");
-	rightColumn.classList.add("right-column");
-	//rightColumn.style.backgroundImage = "linear-gradient(42deg, " + randomRGBA() + ", " + randomRGBA() + ")";
-	contentContainer.appendChild(rightColumn);
-
-	var closeMessage = document.createElement("h3");
-	closeMessage.classList.add("close-message");
-	closeMessage.textContent = "CLICK ANYWHERE TO CLOSE";
-	newContent.appendChild(closeMessage);
 
 	mainContainer.appendChild(newContent);
 	TweenMax.from(newContent, 1, {x:window.innerWidth, ease:Quad.easeInOut});
