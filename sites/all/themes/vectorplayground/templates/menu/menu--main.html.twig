@@ -1,0 +1,81 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a menu.
+ *
+ * Available variables:
+ * - menu_name: The machine name of the menu.
+ * - items: A nested list of menu items. Each menu item contains:
+ *   - attributes: HTML attributes for the menu item.
+ *   - below: The menu item child items.
+ *   - title: The menu link title.
+ *   - url: The menu link url, instance of \Drupal\Core\Url
+ *   - localized_options: Menu link localized options.
+ *
+ * @ingroup templates
+ */
+#}
+
+<canvas width="165" height="165" id="logo"></canvas>
+
+<nav class="row">
+{% import _self as menus %}
+
+{#
+  We call a macro which calls itself to render the full tree.
+  @see http://twig.sensiolabs.org/doc/tags/macro.html
+#}
+{{ menus.menu_links(items, attributes, 0) }}
+
+{% macro menu_links(items, attributes, menu_level) %}
+  {% import _self as menus %}
+  {% if items %}
+    {% if menu_level == 0 %}
+      <ul{{ attributes.addClass('menu', 'nav', 'navbar-nav') }}>
+    {% else %}
+      <ul{{ attributes.addClass('dropdown-menu') }}>
+    {% endif %}
+    {% for item in items %}
+      {%
+        set item_classes = [
+          'expanded',
+          'dropdown',
+          item.in_active_trail ? 'active',
+        ]
+      %}
+      {% if menu_level == 0 and item.is_expanded %}
+        <li{{ item.attributes.addClass(item_classes) }}>
+        <a href="{{ item.url }}" class="dropdown-toggle" data-target="#" data-toggle="dropdown">{{ item.title }} <span class="caret"></span></a>
+      {% else %}
+        <li{{ item.attributes.addClass(item_classes) }}>
+        {{ link(item.title, item.url) }}
+      {% endif %}
+      {% if item.below %}
+        {{ menus.menu_links(item.below, attributes.removeClass('nav', 'navbar-nav'), menu_level + 1) }}
+      {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  </nav>
+  <div class="nav-background"></div>
+    <?xml version="1.0" encoding="utf-8"?>
+    <svg version="1.1" id="hamburger-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+    	 viewBox="0 0 171 171" style="enable-background:new 0 0 171 171;" xml:space="preserve">
+    <style type="text/css">
+    	.st0{fill:#EC008C;}
+    </style>
+    <g id="hamburger">
+    	<path id="veggie-patty" class="st0" d="M126.5,88h-81c-1.7,0-3-1.3-3-3s1.3-3,3-3h81c1.7,0,3,1.3,3,3S128.2,88,126.5,88z"/>
+    	<path id="lower-bun" class="st0" d="M126.5,70h-81c-1.7,0-3-1.3-3-3s1.3-3,3-3h81c1.7,0,3,1.3,3,3S128.2,70,126.5,70z"/>
+    	<path id="upper-bun" class="st0" d="M126.5,106h-81c-1.7,0-3-1.3-3-3s1.3-3,3-3h81c1.7,0,3,1.3,3,3S128.2,106,126.5,106z"/>
+    </g>
+    <g id="close">
+    	<circle id="circle" class="st0" cx="86" cy="85" r="1.9"/>
+    	<path id="lower-line" class="st0" d="M112.5,115.8L55.2,58.5c-1.2-1.2-1.2-3.1,0-4.2c1.2-1.2,3.1-1.2,4.2,0l57.3,57.3
+    		c1.2,1.2,1.2,3.1,0,4.2C115.6,116.9,113.7,116.9,112.5,115.8z"/>
+    	<path id="upper-line" class="st0" d="M116.8,58.5l-57.3,57.3c-1.2,1.2-3.1,1.2-4.2,0c-1.2-1.2-1.2-3.1,0-4.2l57.3-57.3
+    		c1.2-1.2,3.1-1.2,4.2,0C117.9,55.4,117.9,57.3,116.8,58.5z"/>
+    </g>
+    </svg>
+  {% endif %}
+{% endmacro %}

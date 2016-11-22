@@ -1,0 +1,44 @@
+main-styles:
+  css:
+    theme:
+      css/main.css: {}
+
+home-page-shapes:
+  css:
+    theme:
+      css/home-page-shapes.css: {}
+  js:
+    js/home-page-shapes.js: {}
+    js/utils/SplitText.min.js: {}
+    js/plugins/BezierPlugin.min.js: {}
+    js/plugins/CSSPlugin.min.js: {}
+    js/plugins/MorphSVGPlugin.min.js: {}
+
+tweenmax:
+  version: 1.19.0
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js: {}
+
+navbar:
+  css:
+    theme:
+      css/logo.css: {}
+      css/navbar.css: {}
+  js:
+    js/nav.js: {}
+    js/logo.js: {}
+    https://code.createjs.com/createjs-2015.11.26.min.js: {}
+
+footer:
+  css:
+    theme:
+      css/footer.css: {}
+  js:
+    js/footer.js: {}
+
+sidebar-right:
+  css:
+    theme:
+      css/sidebar-right.css: {}
+  js:
+    js/sidebar-right.js: {}

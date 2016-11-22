@@ -1,0 +1,17 @@
+#logo {
+	position: relative;
+	display: block;
+	width: 165px;
+	float: left;
+	margin-right: 40px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+
+@media(max-width: 767px) {
+	#logo {
+		float: none;
+		margin: 10px 0;
+	}
+}
