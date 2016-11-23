@@ -3,7 +3,7 @@ body, html {
 }
 
 body {
-	background-image: url(../img/nebula_stars.png), linear-gradient(320deg, #f5eb66, #ec0659);
+	background-image: url(../img/nebula_stars.png), linear-gradient(320deg, #f61062, #3e095b);
 	background-size: cover;
 	background-position: center;
   background-attachment: fixed;

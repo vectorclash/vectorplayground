@@ -136,7 +136,7 @@ function buildContent(shapeID) {
 
 	var closeMessage = document.createElement("h3");
 	closeMessage.classList.add("close-message");
-	closeMessage.textContent = "CLICK ANYWHERE TO CLOSE";
+	closeMessage.textContent = "X";
 	contentImage.appendChild(closeMessage);
 
 	var contentContainer = document.createElement("div");
@@ -156,22 +156,15 @@ function buildContent(shapeID) {
 	TweenMax.staggerFrom(contentBody.childNodes, 1, {y:100, alpha:0, delay:0, ease:Bounce.easeOut}, 0.1);
 
 	var titleSplit = new SplitText(contentTitle, {type:"chars, words, lines"});
-	TweenMax.staggerFrom(titleSplit.chars, 2, {cycle:{y:[100, -100, 50, -50, 20, -20]}, alpha:0, ease:Elastic.easeOut, delay:1}, -0.02);
+	TweenMax.staggerFrom(titleSplit.chars, 2, {cycle:{y:[100, -100, 50, -50, 20, -20]}, alpha:0, ease:Elastic.easeOut, delay:1.2}, -0.02);
 
-	TweenMax.from(contentTitle, 1, {height:0, delay:0.8, ease:Back.easeOut});
+	TweenMax.from(contentTitle, 2, {x:500, alpha:0, delay:0.2, ease:Expo.easeInOut});
 
-	newContent.addEventListener("click", removeContent);
-}
+	TweenMax.to(footer, 1, {alpha:1, delay:0.6, ease:Quad.easeInOut});
 
-function removeContent() {
-	var content = document.querySelectorAll("div.main-shape-content.active");
-	for(var i = 0; i < content.length; i++) {
-		var deadContent = content[i];
-		deadContent.classList.remove("active");
-
-		TweenMax.staggerTo(deadContent.childNodes, 1, {y:window.innerHeight, alpha:0, ease:Quad.easeInOut}, -0.07);
-		TweenMax.to(deadContent, 1, {alpha:0, ease:Quad.easeInOut, onComplete:function(){mainContainer.removeChild(deadContent);}});
-	}
+	contentImage.addEventListener("click", removeContent);
+	contentImage.addEventListener("mouseover", onHomeImageOver);
+	contentImage.addEventListener("mouseout", onHomeImageOut);
 }
 
 // UTILITIES
@@ -193,6 +186,27 @@ function getRandomArbitrary(min, max) {
 }
 
 // EVENT HANDLERS
+
+function onHomeImageOver(event) {
+	TweenMax.to(event.currentTarget.querySelector('.close-message'), 0.3, {scaleX:1.2, scaleY:1.2, ease:Bounce.easeOut});
+}
+
+function onHomeImageOut(event) {
+	TweenMax.to(event.currentTarget.querySelector('.close-message'), 0.1, {scaleX:1, scaleY:1, ease:Quad.easeOut});
+}
+
+function removeContent(event) {
+	var content = document.querySelectorAll("div.main-shape-content.active");
+	for(var i = 0; i < content.length; i++) {
+		var deadContent = content[i];
+		deadContent.classList.remove("active");
+
+		TweenMax.staggerTo(deadContent.childNodes, 1, {y:window.innerHeight, alpha:0, ease:Quad.easeInOut}, -0.07);
+		TweenMax.to(deadContent, 1, {alpha:0, ease:Quad.easeInOut, onComplete:function(){mainContainer.removeChild(deadContent);}});
+	}
+
+	TweenMax.to(footer, 0.5, {alpha:0, delay:0.2, ease:Quad.easeInOut});
+}
 
 function onShapeClick(event) {
 	for(var i = 0; i < shapes.length; i++) {
