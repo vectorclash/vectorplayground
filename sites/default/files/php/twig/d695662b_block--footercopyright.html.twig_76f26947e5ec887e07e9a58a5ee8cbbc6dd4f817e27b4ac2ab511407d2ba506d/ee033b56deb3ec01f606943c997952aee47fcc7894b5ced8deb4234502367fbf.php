@@ -1,7 +1,7 @@
 <?php
 
-/* sites/all/themes/vectorplayground/templates/block/block.html.twig */
-class __TwigTemplate_8fc168fb5f6e3d24f0a6596bed7f0839a8307dfca795dfe38875fd369444e8f9 extends Twig_Template
+/* sites/all/themes/vectorplayground/templates/block/block--footercopyright.html.twig */
+class __TwigTemplate_e199280a0535a9c7baa46dbba014f59c67bfcb50b8f510ff97cf0457504781aa extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
@@ -71,9 +71,8 @@ class __TwigTemplate_8fc168fb5f6e3d24f0a6596bed7f0839a8307dfca795dfe38875fd36944
   ";
         // line 63
         $this->displayBlock('content', $context, $blocks);
-        // line 66
+        // line 70
         echo "</section>
-
 ";
     }
 
@@ -81,15 +80,20 @@ class __TwigTemplate_8fc168fb5f6e3d24f0a6596bed7f0839a8307dfca795dfe38875fd36944
     public function block_content($context, array $blocks = array())
     {
         // line 64
-        echo "    ";
+        echo "    <div class=\"row\">
+      <div class=\"col-sm-12\">
+        ";
+        // line 66
         echo $this->env->getExtension('sandbox')->ensureToStringAllowed($this->env->getExtension('drupal_core')->escapeFilter($this->env, (isset($context["content"]) ? $context["content"] : null), "html", null, true));
         echo "
+      </div>
+    <div>
   ";
     }
 
     public function getTemplateName()
     {
-        return "sites/all/themes/vectorplayground/templates/block/block.html.twig";
+        return "sites/all/themes/vectorplayground/templates/block/block--footercopyright.html.twig";
     }
 
     public function isTraitable()
@@ -99,7 +103,7 @@ class __TwigTemplate_8fc168fb5f6e3d24f0a6596bed7f0839a8307dfca795dfe38875fd36944
 
     public function getDebugInfo()
     {
-        return array (  84 => 64,  81 => 63,  75 => 66,  73 => 63,  67 => 61,  59 => 59,  57 => 58,  53 => 57,  48 => 56,  46 => 52,  45 => 51,  44 => 49,);
+        return array (  87 => 66,  83 => 64,  80 => 63,  75 => 70,  73 => 63,  67 => 61,  59 => 59,  57 => 58,  53 => 57,  48 => 56,  46 => 52,  45 => 51,  44 => 49,);
     }
 }
 /* {#*/
@@ -165,8 +169,11 @@ class __TwigTemplate_8fc168fb5f6e3d24f0a6596bed7f0839a8307dfca795dfe38875fd36944
 /*   {{ title_suffix }}*/
 /* */
 /*   {% block content %}*/
-/*     {{ content }}*/
+/*     <div class="row">*/
+/*       <div class="col-sm-12">*/
+/*         {{ content }}*/
+/*       </div>*/
+/*     <div>*/
 /*   {% endblock %}*/
 /* </section>*/
-/* */
 /* */

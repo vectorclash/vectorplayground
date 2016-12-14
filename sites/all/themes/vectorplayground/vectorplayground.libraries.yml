@@ -7,13 +7,9 @@ home-page-shapes:
   css:
     theme:
       css/home-page-shapes.css: {}
-      css/flickity.css: {}
-      css/shape-carousel.css: {}
   js:
     js/home-page-shapes.js: {}
     js/jquery.matchHeight-min.js: {}
-    js/flickity.pkgd.min.js: {}
-    js/shape-carousel.js: {}
 
 tweenmax:
   version: 1.19.0

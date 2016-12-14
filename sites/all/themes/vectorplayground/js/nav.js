@@ -38,7 +38,7 @@ function onHBClick(event) {
     isNavOpen = false;
     TweenMax.to("#upper-bun", 0.5, {morphSVG:"#upper-bun", ease:Elastic.easeOut});
     TweenMax.to("#veggie-patty", 0.5, {morphSVG:"#veggie-patty", delay:0.5, ease:Elastic.easeOut});
-    TweenMax.to("#veggie-patty", 0.5, {scaleX:1, scaleY:1, alpha:1, fill:0xEC008C, ease:Bounce.easeOut});
+    TweenMax.to("#veggie-patty", 0.5, {scaleX:1, scaleY:1, alpha:1, ease:Bounce.easeOut});
     TweenMax.to("#lower-bun", 0.5, {morphSVG:"#lower-bun", ease:Elastic.easeOut});
 
     TweenMax.to(navContainer, 0.5, {alpha:0, ease:Bounce.easeOut, onComplete:function(){navContainer.style.display="none";}});

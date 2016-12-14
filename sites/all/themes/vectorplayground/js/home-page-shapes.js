@@ -6,7 +6,8 @@ var shapes;
 var mainContainer;
 var colorShapes;
 var shapeContainer;
-var activeCarousel;
+var activeImage;
+var FSImageActive = false;
 
 function init() {
 	mainContainer = document.querySelector(".main-container");
@@ -179,10 +180,9 @@ function buildContent(shapeID) {
 	contentSubtitle.classList.add("shape-content-subtitle-full");
 	titleContainer.appendChild(contentSubtitle);
 
-	var closeMessage = document.createElement("h3");
-	closeMessage.classList.add("close-message");
-	closeMessage.textContent = "X";
-	contentImage.appendChild(closeMessage);
+	var closeButton = document.createElement("div");
+	closeButton.classList.add("close-button");
+	contentImage.appendChild(closeButton);
 
 	var contentContainer = document.createElement("div");
 	contentContainer.classList.add("shape-content-container");
@@ -195,10 +195,6 @@ function buildContent(shapeID) {
 	galleryContainer.classList.add("shape-content-gallery-full");
 	contentBody.appendChild(galleryContainer);
 
-	var carousel = document.createElement("div");
-	carousel.classList.add("carousel");
-	contentBody.appendChild(carousel);
-
 	for(var i = 0; i < activeShape.myGallery.length; i++) {
 		var item = document.createElement("li");
 		galleryContainer.appendChild(item);
@@ -208,18 +204,7 @@ function buildContent(shapeID) {
 		item.addEventListener("mouseover", onGalleryItemOver);
 		item.addEventListener("mouseout", onGalleryItemOut);
 		item.addEventListener("click", onGalleryItemClick);
-
-		// create carousel items
-
-		var carouselItem = document.createElement("div");
-		carouselItem.classList.add("carousel-cell");
-		carousel.appendChild(carouselItem);
-		var carouselIMG = document.createElement("img");
-		carouselIMG.src = activeShape.myGallery[i];
-		carouselItem.appendChild(carouselIMG);
 	}
-
-	activeCarousel = carousel;
 
 	var toolsContainer = document.createElement("ul");
 	toolsContainer.classList.add("shape-content-tools-full");
@@ -241,6 +226,9 @@ function buildContent(shapeID) {
 
 	TweenMax.staggerFrom(contentBody.childNodes, 1, {y:100, alpha:0, delay:0, ease:Bounce.easeOut}, 0.1);
 
+	TweenMax.staggerFrom(galleryContainer.childNodes, 1, {y:100, alpha:0, delay:2.5, ease:Bounce.easeOut}, 0.1);
+	TweenMax.staggerFrom(toolsContainer.childNodes, 1, {y:100, alpha:0, delay:4, ease:Bounce.easeOut}, 0.1);
+
 	var titleSplit = new SplitText(contentTitle, {type:"chars, words, lines"});
 	TweenMax.staggerFrom(titleSplit.chars, 2, {cycle:{y:[100, -100, 50, -50, 20, -20]}, alpha:0, ease:Elastic.easeOut, delay:1.2}, -0.02);
 
@@ -248,9 +236,34 @@ function buildContent(shapeID) {
 
 	TweenMax.from(contentSubtitle, 2, {y:100, alpha:0, delay:0.8, ease:Expo.easeInOut});
 
+	TweenMax.from(closeButton, 1, {rotation:250, y:-200, alpha:0, ease:Bounce.easeOut, delay:1.5});
+
 	contentImage.addEventListener("click", removeContent);
 	contentImage.addEventListener("mouseover", onHomeImageOver);
 	contentImage.addEventListener("mouseout", onHomeImageOut);
+}
+
+function showFullImage(image) {
+	if(!FSImageActive) {
+		FSImageActive = true;
+		var fullScreenImage = document.createElement('div');
+		fullScreenImage.classList.add('fullscreen-image');
+		fullScreenImage.style.backgroundImage = image;
+		activeImage = fullScreenImage;
+		mainContainer.appendChild(fullScreenImage);
+
+		var closeButton = document.createElement("div");
+		closeButton.classList.add("close-button");
+		fullScreenImage.appendChild(closeButton);
+
+		fullScreenImage.addEventListener('click', destroyFullScreenImage);
+		closeButton.addEventListener("mouseover", onCloseOver);
+		closeButton.addEventListener("mouseout", onCloseOut);
+
+		TweenMax.from(closeButton, 0.8, {y:-100, alpha:0, delay:0.3, ease:Bounce.easeOut});
+		TweenMax.from(fullScreenImage, 0.8, {scaleX:1.5, scaleY:1.5, alpha:0, ease:Bounce.easeOut});
+		TweenMax.to(fullScreenImage, 0.8, {borderColor:Math.random()*0xFFFFFF, ease:Bounce.easeOut});
+	}
 }
 
 // UTILITIES
@@ -274,21 +287,12 @@ function getRandomArbitrary(min, max) {
 // EVENT HANDLERS
 
 function onGalleryItemClick(event) {
-	TweenMax.set(activeCarousel, {display:"block"});
-	TweenMax.set(event.currentTarget.parentNode, {display:"none"});
-	activeCarousel.setAttribute('data-flickity', '{ "initialIndex":' + event.currentTarget.key + ' }');
-	initCarousel();
+	showFullImage(event.currentTarget.style.backgroundImage);
+}
 
-	// if(event.currentTarget.active) {
-	// 	event.currentTarget.active = false;
-	// 	event.currentTarget.addEventListener("mouseover", onGalleryItemOver);
-	// 	event.currentTarget.addEventListener("mouseout", onGalleryItemOut);
-	// } else {
-	// 	event.currentTarget.active = true;
-	// 	event.currentTarget.removeEventListener("mouseover", onGalleryItemOver);
-	// 	event.currentTarget.removeEventListener("mouseout", onGalleryItemOut);
-	// 	TweenMax.to(event.currentTarget, 0.2, {scaleX:1, scaleY:1, ease:Quad.easeOut});
-	// }
+function destroyFullScreenImage(event) {
+	TweenMax.to(event.currentTarget, 0.5, {border:"0px", ease:Bounce.easeOut});
+	TweenMax.to(event.currentTarget, 0.5, {scaleX:0.5, scaleY:0.5, alpha:0, ease:Bounce.easeOut, onComplete:function(){mainContainer.removeChild(activeImage);FSImageActive=false;}});
 }
 
 function onGalleryItemOver(event) {
@@ -302,11 +306,19 @@ function onGalleryItemOut(event) {
 }
 
 function onHomeImageOver(event) {
-	TweenMax.to(event.currentTarget.querySelector('.close-message'), 0.3, {color:0xFFFFCC, backgroundColor:Math.random()*0xFFFFFF, ease:Bounce.easeOut});
+	TweenMax.to(event.currentTarget.querySelector('.close-button'), 0.3, {scaleX:1.1, scaleY:1.1, alpha:0.5, ease:Bounce.easeOut});
 }
 
 function onHomeImageOut(event) {
-	TweenMax.to(event.currentTarget.querySelector('.close-message'), 0.1, {color:0x00CCFF, backgroundColor:0x232323, ease:Quad.easeOut});
+	TweenMax.to(event.currentTarget.querySelector('.close-button'), 0.1, {scaleX:1, scaleY:1, alpha:0.9, ease:Quad.easeOut});
+}
+
+function onCloseOver(event) {
+	TweenMax.to(event.currentTarget, 0.3, {scaleX:1.1, scaleY:1.1, alpha:0.5, ease:Bounce.easeOut});
+}
+
+function onCloseOut(event) {
+	TweenMax.to(event.currentTarget, 0.1, {scaleX:1, scaleY:1, alpha:0.9, ease:Quad.easeOut});
 }
 
 function removeContent(event) {
