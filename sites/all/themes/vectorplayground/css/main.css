@@ -3,7 +3,7 @@ body, html {
 }
 
 body {
-	background-image: url(../img/nebula_stars.png), linear-gradient(320deg, #f61062, #3e095b);
+	background-image: url(../img/nebula_stars.png), linear-gradient(320deg, #f5eb66, #ec0659 70%, #1d0333 99%);
 	background-size: cover;
 	background-position: center;
   background-attachment: fixed;
@@ -15,6 +15,13 @@ body {
 
 h1, h2, h3, h4 {
 	font-family: 'Ubuntu', sans-serif;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.page-header {
+	display: none;
 }
 
 h3 {

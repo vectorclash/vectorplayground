@@ -7,18 +7,22 @@ home-page-shapes:
   css:
     theme:
       css/home-page-shapes.css: {}
+      css/flickity.css: {}
+      css/shape-carousel.css: {}
   js:
     js/home-page-shapes.js: {}
-    js/utils/SplitText.min.js: {}
-    js/plugins/BezierPlugin.min.js: {}
-    js/plugins/CSSPlugin.min.js: {}
-    js/plugins/MorphSVGPlugin.min.js: {}
     js/jquery.matchHeight-min.js: {}
+    js/flickity.pkgd.min.js: {}
+    js/shape-carousel.js: {}
 
 tweenmax:
   version: 1.19.0
   js:
     https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js: {}
+    js/utils/SplitText.min.js: {}
+    js/plugins/BezierPlugin.min.js: {}
+    js/plugins/CSSPlugin.min.js: {}
+    js/plugins/MorphSVGPlugin.min.js: {}
 
 navbar:
   css:

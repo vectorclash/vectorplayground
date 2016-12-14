@@ -13,7 +13,7 @@ function changeFooterColor() {
 }
 
 function updateFooterGradient() {
-  footer.style.backgroundImage = "linear-gradient(42deg, rgba(" + Math.round(color1.r) + ", " + Math.round(color1.g) + ", " + Math.round(color1.b) + ", " + 1 + "), rgba(" + Math.round(color2.r) + ", " + Math.round(color2.g) + ", " + Math.round(color2.b) + ", " + color2.a + "))";
+  footer.style.backgroundImage = "linear-gradient(42deg, rgba(" + Math.round(color1.r) + ", " + Math.round(color1.g) + ", " + Math.round(color1.b) + ", " + color1.a + "), rgba(" + Math.round(color2.r) + ", " + Math.round(color2.g) + ", " + Math.round(color2.b) + ", " + color2.a + "))";
 }
 
 function randomRGBAObject() {

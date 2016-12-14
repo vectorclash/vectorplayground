@@ -1,7 +1,7 @@
 .navbar-nav {
   position: absolute;
   right: 0;
-  top: 130px;
+  top: 150px;
   margin: 0;
   opacity: 0;
   display: none;
@@ -39,8 +39,8 @@
 
 #hamburger-icon {
   position: absolute;
-  top: 30px;
-  right: 20px;
+  top: 55px;
+  right: 0px;
   width: 120px;
   display: none;
   cursor: pointer;
@@ -66,4 +66,10 @@
 
 #hamburger-icon {
   display: block;
+}
+
+@media(max-width: 767px) {
+  .navbar-nav {
+    right: 15px;
+  }
 }

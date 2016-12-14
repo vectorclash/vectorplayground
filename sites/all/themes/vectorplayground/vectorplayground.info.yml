@@ -5,7 +5,6 @@ description: An experimental theme for vectorclash
 core: 8.x
 libraries:
   - vectorplayground/main-styles
-  - vectorplayground/home-page-shapes
   - vectorplayground/tweenmax
   - vectorplayground/navbar
   - vectorplayground/footer

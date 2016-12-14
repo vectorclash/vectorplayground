@@ -66,13 +66,13 @@ function onHBOver(event) {
 }
 
 function onHBOut(event) {
-  TweenMax.to("#upper-bun", 0.5, {fill:0xEC008C, ease:Back.easeOut});
+  TweenMax.to("#upper-bun", 0.5, {fill:0x3a0460, ease:Back.easeOut});
   if(isNavOpen) {
     TweenMax.to("#veggie-patty", 0.5, {fill:"rgb(11, 146, 176)", ease:Back.easeOut});
   } else {
-    TweenMax.to("#veggie-patty", 0.5, {fill:0xEC008C, ease:Back.easeOut});
+    TweenMax.to("#veggie-patty", 0.5, {fill:0x3a0460, ease:Back.easeOut});
   }
-  TweenMax.to("#lower-bun", 0.5, {fill:0xEC008C, ease:Back.easeOut});
+  TweenMax.to("#lower-bun", 0.5, {fill:0x3a0460, ease:Back.easeOut});
 }
 
 function onWindowResize(event) {
