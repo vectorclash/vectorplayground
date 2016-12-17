@@ -25,4 +25,4 @@ function randomRGBAObject() {
   return {r:_r, g:_g, b:_b, a:_a};
 }
 
-changeFooterColor();
+//changeFooterColor();

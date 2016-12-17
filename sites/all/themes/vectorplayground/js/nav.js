@@ -3,6 +3,9 @@ var closeButton;
 var hamburgerButton;
 var navBackground;
 var isNavOpen = false;
+var footer;
+var color1 = randomRGBAObject();
+var color2 = randomRGBAObject();
 
 function initNav() {
   navContainer = document.querySelector(".navbar-nav");
@@ -10,11 +13,16 @@ function initNav() {
   hamburgerButton = document.querySelector("#hamburger-icon");
   navBackground = document.querySelector(".nav-background");
 
+  footer = document.createElement("div");
+  footer.classList.add("nav-footer");
+  footer.innerHTML = "©" + new Date().getFullYear() + " Aaron Ezra Sterczewski";
+  navContainer.appendChild(footer);
+
   hamburgerButton.addEventListener("click", onHBClick);
   hamburgerButton.addEventListener("mouseover", onHBOver);
   hamburgerButton.addEventListener("mouseout", onHBOut);
 
-  window.addEventListener("resize", onWindowResize);
+  changeNavColor();
 }
 
 function onHBClick(event) {
@@ -33,7 +41,6 @@ function onHBClick(event) {
     TweenMax.to(navBackground, 1, {opacity:1, onStart:enableNavBackground});
 
     TweenMax.set(hamburgerButton, {zIndex:3000});
-    //TweenMax.to(hamburgerButton, 1, {className:"hamburger-icon-middle", ease:Back.easeOut});
   } else {
     isNavOpen = false;
     TweenMax.to("#upper-bun", 0.5, {morphSVG:"#upper-bun", ease:Elastic.easeOut});
@@ -46,8 +53,6 @@ function onHBClick(event) {
     TweenMax.to(navBackground, 1, {opacity:0, onComplete:disableNavBackground});
 
     TweenMax.set(hamburgerButton, {zIndex:400});
-
-    //TweenMax.to(hamburgerButton, 1, {className:"hamburger-icon-right", ease:Back.easeOut});
   }
 }
 
@@ -57,6 +62,29 @@ function enableNavBackground() {
 
 function disableNavBackground() {
   TweenMax.set(navBackground, {display:'none'});
+}
+
+function changeNavColor() {
+  var newColor1 = randomRGBAObject();
+  var newColor2 = randomRGBAObject();
+
+  TweenMax.to(color1, 5, {r:newColor1.r, g:newColor1.g, b:newColor1.b, a:newColor1.a, ease:Quad.easeInOut, onUpdate:updateNavGradient});
+  TweenMax.to(color2, 5, {r:newColor2.r, g:newColor2.g, b:newColor2.b, a:newColor2.a, ease:Quad.easeInOut});
+
+  TweenMax.delayedCall(8, changeNavColor);
+}
+
+function updateNavGradient() {
+  navBackground.style.backgroundImage = "linear-gradient(42deg, rgba(" + Math.round(color1.r) + ", " + Math.round(color1.g) + ", " + Math.round(color1.b) + ", " + color1.a + "), rgba(" + Math.round(color2.r) + ", " + Math.round(color2.g) + ", " + Math.round(color2.b) + ", " + color2.a + "))";
+}
+
+function randomRGBAObject() {
+  var _r = Math.round(Math.random() * 255);
+  var _g = Math.round(Math.random() * 255);
+  var _b = Math.round(Math.random() * 255);
+  var _a = 0.9;
+
+  return {r:_r, g:_g, b:_b, a:_a};
 }
 
 function onHBOver(event) {
@@ -73,10 +101,6 @@ function onHBOut(event) {
     TweenMax.to("#veggie-patty", 0.5, {fill:0x3a0460, ease:Back.easeOut});
   }
   TweenMax.to("#lower-bun", 0.5, {fill:0x3a0460, ease:Back.easeOut});
-}
-
-function onWindowResize(event) {
-
 }
 
 window.addEventListener("load", initNav);

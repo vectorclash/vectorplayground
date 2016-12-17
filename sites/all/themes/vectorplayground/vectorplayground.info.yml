@@ -7,7 +7,6 @@ libraries:
   - vectorplayground/main-styles
   - vectorplayground/tweenmax
   - vectorplayground/navbar
-  - vectorplayground/footer
 stylesheets-remove:
   - '@classy/css/components/tabs.css'
   - core/assets/vendor/normalize-css/normalize.css

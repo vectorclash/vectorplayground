@@ -28,3 +28,10 @@
   width: 100%;
   height: 100%;
 }
+
+@media(max-width: 767px) {
+  .region-sidebar-second {
+    margin-top: 50px;
+    margin-bottom: 10px;
+  }
+}

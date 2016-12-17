@@ -10,6 +10,7 @@ var activeImage;
 var FSImageActive = false;
 
 function init() {
+	dissmissAlerts();
 	mainContainer = document.querySelector(".main-container");
 	shapeContainer = document.createElement("div");
 	shapeContainer.classList.add("shape-container");
@@ -34,7 +35,7 @@ function init() {
 		shape.appendChild(backgroundDiv);
 
 		TweenMax.set(shape, {alpha:0.7, x:Math.random()*window.innerWidth, y:200+(Math.random()*(window.innerHeight-200)), width: shapeSizeDefault * sizeModifier, height: shapeSizeDefault * sizeModifier});
-		TweenMax.from(shape, 2, {alpha:0, delay:i*0.2, ease:Bounce.easeOut});
+		TweenMax.from(shape, 1, {alpha:0, delay:i*0.2, ease:Elastic.easeOut});
 
 		shape.size = shapeSizeDefault * sizeModifier;
 		shape.url = shape.querySelector("a").href;
@@ -74,6 +75,7 @@ function init() {
 
 		TweenMax.delayedCall(0.2, animateShape, [shape]);
 
+		shape.addEventListener("mouseover", onShapeOver);
 		shape.addEventListener("click", onShapeClick);
 	}
 
@@ -95,8 +97,6 @@ function init() {
 }
 
 function animateShape(shape) {
-	shape.addEventListener("mouseover", onShapeOver);
-
 	var shapeRect = shape.getBoundingClientRect();
 
 	var ranTime = 5 + Math.random() * 10;
@@ -114,6 +114,18 @@ function animateShape(shape) {
 }
 
 // CONSTRUCT AND DESTROY CONTENT
+
+function dissmissAlerts() {
+	var alerts = document.querySelectorAll(".alert");
+	TweenMax.staggerTo(alerts, 3, {alpha:0, y:100+Math.random()*600, rotation:-100+Math.random()*200, skewY:-50+Math.random()*100, delay:1, ease:Elastic.easeOut, onComplete:removeAlerts, onCompleteParams:[alerts]}, 0.2);
+}
+
+function removeAlerts(alerts) {
+	for(var i = 0; i < alerts.length; i++) {
+		var alert = alerts[i];
+		alert.parentNode.removeChild(alert);
+	}
+}
 
 function buildSummary(text) {
 	var newSummary = document.createElement("div");
@@ -229,18 +241,23 @@ function buildContent(shapeID) {
 	TweenMax.staggerFrom(galleryContainer.childNodes, 1, {y:100, alpha:0, delay:2.5, ease:Bounce.easeOut}, 0.1);
 	TweenMax.staggerFrom(toolsContainer.childNodes, 1, {y:100, alpha:0, delay:4, ease:Bounce.easeOut}, 0.1);
 
-	var titleSplit = new SplitText(contentTitle, {type:"chars, words, lines"});
-	TweenMax.staggerFrom(titleSplit.chars, 2, {cycle:{y:[100, -100, 50, -50, 20, -20]}, alpha:0, ease:Elastic.easeOut, delay:1.2}, -0.02);
+	//var titleSplit = new SplitText(contentTitle, {type:"chars, words, lines"});
+	//TweenMax.staggerFrom(titleSplit.chars, 2, {cycle:{y:[100, -100, 50, -50, 20, -20]}, alpha:0, ease:Elastic.easeOut, delay:1.2}, -0.02);
 
-	TweenMax.from(contentTitle, 2, {x:500, alpha:0, delay:0.2, ease:Expo.easeInOut});
+	TweenMax.from(contentTitle, 2, {y:500, alpha:0, delay:0.2, ease:Expo.easeInOut});
 
 	TweenMax.from(contentSubtitle, 2, {y:100, alpha:0, delay:0.8, ease:Expo.easeInOut});
 
-	TweenMax.from(closeButton, 1, {rotation:250, y:-200, alpha:0, ease:Bounce.easeOut, delay:1.5});
+	TweenMax.from(closeButton, 1, {rotation:250, y:-200, ease:Bounce.easeOut, delay:1.5});
+	TweenMax.to(closeButton, 1, {alpha:0.9, ease:Bounce.easeOut, delay:1.5});
 
-	contentImage.addEventListener("click", removeContent);
-	contentImage.addEventListener("mouseover", onHomeImageOver);
-	contentImage.addEventListener("mouseout", onHomeImageOut);
+	TweenMax.delayedCall(2, addContentListeners, [contentImage]);
+}
+
+function addContentListeners(object) {
+	object.addEventListener("click", removeContent);
+	object.addEventListener("mouseover", onHomeImageOver);
+	object.addEventListener("mouseout", onHomeImageOut);
 }
 
 function showFullImage(image) {
@@ -296,20 +313,22 @@ function destroyFullScreenImage(event) {
 }
 
 function onGalleryItemOver(event) {
-	//TweenMax.to(event.currentTarget, 0.4, {flex:2, ease:Quad.easeOut});
-	TweenMax.to(event.currentTarget, 0.3, {width:180, ease:Bounce.easeOut});
+	TweenMax.to(event.currentTarget, 0.4, {flex:2, ease:Bounce.easeOut});
+	//TweenMax.to(event.currentTarget, 0.3, {borderRadius:"20px", backgroundSize:"400px", borderBottom:"2px solid blue", ease:Bounce.easeOut});
 }
 
 function onGalleryItemOut(event) {
-	//TweenMax.to(event.currentTarget, 0.4, {flex:1, ease:Bounce.easeOut});
-	TweenMax.to(event.currentTarget, 0.2, {width:150, ease:Quad.easeOut});
+	TweenMax.to(event.currentTarget, 0.4, {flex:1, ease:Bounce.easeOut});
+	//TweenMax.to(event.currentTarget, 0.2, {borderRadius:"0px", backgroundSize:"500px", borderBottom:"0px solid white", ease:Quad.easeOut});
 }
 
 function onHomeImageOver(event) {
+	TweenMax.to(event.currentTarget.querySelector('.shape-content-titles'), 0.3, {boxShadow:"-20px 20px 80px rgba(226, 18, 74, 0.2)", ease:Bounce.easeOut});
 	TweenMax.to(event.currentTarget.querySelector('.close-button'), 0.3, {scaleX:1.1, scaleY:1.1, alpha:0.5, ease:Bounce.easeOut});
 }
 
 function onHomeImageOut(event) {
+	TweenMax.to(event.currentTarget.querySelector('.shape-content-titles'), 0.3, {boxShadow:"-5px 5px 40px rgba(28, 0, 54, 0.5)", ease:Bounce.easeOut});
 	TweenMax.to(event.currentTarget.querySelector('.close-button'), 0.1, {scaleX:1, scaleY:1, alpha:0.9, ease:Quad.easeOut});
 }
 
@@ -348,18 +367,25 @@ function onShapeOver(event) {
 	TweenMax.killTweensOf(event.currentTarget);
 
 	var summary = event.currentTarget.querySelector(".shape-body-summary");
-	buildSummary(summary.textContent);
+	if(summary) {
+		buildSummary(summary.textContent);
+	}
 
 	var logo = event.currentTarget.querySelector(".shape-logo");
-	TweenMax.set(logo, {transformOrigin:"50% 50%"});
-
-	TweenMax.from(logo, 0.5, {scaleX:0.5, scaleY:0.5, alpha:0, ease:Quad.easeOut});
+	if(logo) {
+		TweenMax.set(logo, {transformOrigin:"50% 50%"});
+		TweenMax.from(logo, 0.5, {scaleX:0.5, scaleY:0.5, alpha:0, ease:Quad.easeOut});
+	}
 
 	var background = event.currentTarget.querySelector(".shape-background");
 	var title = event.currentTarget.querySelector(".shape-title");
-	var split = new SplitText(title, {type:"chars, words, lines"});
-	TweenMax.staggerFrom(split.chars, 0.6, {cycle:{y:[20, -20]}, alpha:0, ease:Expo.easeOut}, 0.04);
-	TweenMax.to(background, 0.5, {alpha:0, scaleX:1.4, scaleY:1.4, ease:Quad.easeOut});
+	if(title) {
+		var split = new SplitText(title, {type:"chars, words, lines"});
+		TweenMax.staggerFrom(split.chars, 0.6, {cycle:{y:[20, -20]}, alpha:0, ease:Expo.easeOut}, 0.04);
+	}
+	if(background) {
+		TweenMax.to(background, 0.5, {alpha:0, scaleX:1.4, scaleY:1.4, ease:Quad.easeOut});
+	}
 }
 
 function onShapeOut(event) {
@@ -367,9 +393,13 @@ function onShapeOut(event) {
 	event.currentTarget.removeEventListener("mouseout", onShapeOut);
 	var background = event.currentTarget.querySelector(".shape-background");
 	var title = event.currentTarget.querySelector(".shape-title");
-	var split = new SplitText(title, {type:"chars, words, lines"});
-	TweenMax.staggerTo(split.chars, 0.5, {cycle:{y:[20, -20]}, alpha:0, ease:Quad.easeOut}, 0.02);
-	TweenMax.to(background, 0.5, {alpha:1, scaleX:1, scaleY:1, ease:Quad.easeInOut, onComplete:resetEventListeners, onCompleteParams:[event.currentTarget]});
+	if(title) {
+		var split = new SplitText(title, {type:"chars, words, lines"});
+		TweenMax.staggerTo(split.chars, 0.5, {cycle:{y:[20, -20]}, alpha:0, ease:Quad.easeOut}, 0.02);
+	}
+	if(background) {
+		TweenMax.to(background, 0.5, {alpha:1, scaleX:1, scaleY:1, ease:Quad.easeInOut, onComplete:resetEventListeners, onCompleteParams:[event.currentTarget]});
+	}
 }
 
 function onHomeResize(event) {

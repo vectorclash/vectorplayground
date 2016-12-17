@@ -11,6 +11,8 @@ var lineThickness = 1;
 
 function buildLogo() {
 	stage = new createjs.Stage("logo");
+	stage.addEventListener("mouseenter", onStageOver);
+	//stage.addEventListener("stagemousedown", onStageClick);
   TweenLite.ticker.addEventListener("tick", loop, this);
 
   createjs.Touch.enable(stage);
@@ -18,16 +20,18 @@ function buildLogo() {
   shape = mCube(shapeSize, getRandomNumber(0.0, 1.0));
   shape.x = stage.canvas.width/2;
   shape.y = stage.canvas.height/2;
-  shape.addEventListener("click", onShapeClicked);
   stage.addChild(shape);
 }
 
-function onShapeClicked(event) {
+function onStageClick(event) {
+	window.location.href = "/";
+}
+
+function onStageOver(event) {
   stage.removeChild(shape);
   shape = mCube(shapeSize, getRandomNumber(0.0, 1.0));
   shape.x = stage.canvas.width/2;
   shape.y = stage.canvas.height/2;
-  shape.addEventListener("click", onShapeClicked);
   stage.addChild(shape);
 }
 

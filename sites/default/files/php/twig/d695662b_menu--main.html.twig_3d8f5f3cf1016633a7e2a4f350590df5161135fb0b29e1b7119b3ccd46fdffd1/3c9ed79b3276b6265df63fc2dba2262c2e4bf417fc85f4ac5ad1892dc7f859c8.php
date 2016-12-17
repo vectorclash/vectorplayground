@@ -17,13 +17,13 @@ class __TwigTemplate_2ac0d2106fc935f267eef248a9df5cd7f25c79eea3df1baeda76c0c444a
     {
         $tags = array("import" => 22, "macro" => 30, "if" => 32, "for" => 38, "set" => 40);
         $filters = array();
-        $functions = array("link" => 51);
+        $functions = array("url" => 19, "link" => 51);
 
         try {
             $this->env->getExtension('sandbox')->checkSecurity(
                 array('import', 'macro', 'if', 'for', 'set'),
                 array(),
-                array('link')
+                array('url', 'link')
             );
         } catch (Twig_Sandbox_SecurityError $e) {
             $e->setTemplateFile($this->getTemplateName());
@@ -41,7 +41,10 @@ class __TwigTemplate_2ac0d2106fc935f267eef248a9df5cd7f25c79eea3df1baeda76c0c444a
 
         // line 18
         echo "
-<canvas width=\"165\" height=\"165\" id=\"logo\"></canvas>
+<a href=\"";
+        // line 19
+        echo $this->env->getExtension('sandbox')->ensureToStringAllowed($this->env->getExtension('drupal_core')->renderVar($this->env->getExtension('drupal_core')->getUrl("<front>")));
+        echo "\" ><canvas width=\"165\" height=\"165\" id=\"logo\"></canvas></a>
 
 <nav class=\"row\">
 ";
@@ -189,7 +192,7 @@ $context["item"], "in_active_trail", array())) ? ("active") : ("")));
 
     public function getDebugInfo()
     {
-        return array (  147 => 58,  140 => 56,  134 => 54,  131 => 53,  126 => 51,  121 => 50,  114 => 48,  109 => 47,  106 => 46,  104 => 43,  103 => 40,  101 => 39,  96 => 38,  90 => 36,  84 => 34,  81 => 33,  78 => 32,  75 => 31,  61 => 30,  54 => 28,  51 => 23,  49 => 22,  43 => 18,);
+        return array (  150 => 58,  143 => 56,  137 => 54,  134 => 53,  129 => 51,  124 => 50,  117 => 48,  112 => 47,  109 => 46,  107 => 43,  106 => 40,  104 => 39,  99 => 38,  93 => 36,  87 => 34,  84 => 33,  81 => 32,  78 => 31,  64 => 30,  57 => 28,  54 => 23,  52 => 22,  46 => 19,  43 => 18,);
     }
 }
 /* {#*/
@@ -210,7 +213,7 @@ $context["item"], "in_active_trail", array())) ? ("active") : ("")));
 /*  *//* */
 /* #}*/
 /* */
-/* <canvas width="165" height="165" id="logo"></canvas>*/
+/* <a href="{{ url('<front>') }}" ><canvas width="165" height="165" id="logo"></canvas></a>*/
 /* */
 /* <nav class="row">*/
 /* {% import _self as menus %}*/

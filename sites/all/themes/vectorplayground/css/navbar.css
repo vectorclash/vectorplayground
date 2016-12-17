@@ -1,7 +1,12 @@
+#block-vectorplayground-main-menu {
+    margin-bottom: 50px;
+}
+
 .navbar-nav {
   position: absolute;
   right: 0;
-  top: 150px;
+  top: 200px;
+  height: 100%;
   margin: 0;
   opacity: 0;
   display: none;
@@ -18,6 +23,7 @@
   margin: 40px 0;
   color: white;
   font-size: 80px;
+  padding: 0 0 20px 0;
 }
 
 .navbar-nav li a:hover {
@@ -37,10 +43,18 @@
   z-index: 1980;
 }
 
+.nav-footer {
+  position: absolute;
+  right: 7px;
+  margin-top: 20px;
+  font-size: 12px;
+  vertical-align: bottom;
+}
+
 #hamburger-icon {
   position: absolute;
   top: 55px;
-  right: 0px;
+  right: -10px;
   width: 120px;
   display: none;
   cursor: pointer;
@@ -71,5 +85,9 @@
 @media(max-width: 767px) {
   .navbar-nav {
     right: 15px;
+  }
+
+  #hamburger-icon {
+    right: 0px;
   }
 }

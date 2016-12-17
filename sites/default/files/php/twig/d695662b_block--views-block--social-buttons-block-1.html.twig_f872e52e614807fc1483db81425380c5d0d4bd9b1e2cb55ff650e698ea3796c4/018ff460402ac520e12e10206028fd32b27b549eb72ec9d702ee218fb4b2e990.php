@@ -1,7 +1,7 @@
 <?php
 
-/* sites/all/themes/vectorplayground/templates/block/block--footercopyright.html.twig */
-class __TwigTemplate_e199280a0535a9c7baa46dbba014f59c67bfcb50b8f510ff97cf0457504781aa extends Twig_Template
+/* sites/all/themes/vectorplayground/templates/block/block--views-block--social-buttons-block-1.html.twig */
+class __TwigTemplate_bd6218edd4b18bacafaea37db600d63cf24103262b30db7b52c602a06020c7e4 extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
@@ -16,15 +16,15 @@ class __TwigTemplate_e199280a0535a9c7baa46dbba014f59c67bfcb50b8f510ff97cf0457504
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $tags = array("set" => 49, "if" => 58, "block" => 63);
+        $tags = array("set" => 49, "if" => 61, "block" => 66);
         $filters = array("clean_class" => 51);
-        $functions = array();
+        $functions = array("attach_library" => 57);
 
         try {
             $this->env->getExtension('sandbox')->checkSecurity(
                 array('set', 'if', 'block'),
                 array('clean_class'),
-                array()
+                array('attach_library')
             );
         } catch (Twig_Sandbox_SecurityError $e) {
             $e->setTemplateFile($this->getTemplateName());
@@ -45,17 +45,24 @@ class __TwigTemplate_e199280a0535a9c7baa46dbba014f59c67bfcb50b8f510ff97cf0457504
 (isset($context["configuration"]) ? $context["configuration"] : null), "provider", array()))), 2 => ("block-" . \Drupal\Component\Utility\Html::getClass(        // line 52
 (isset($context["plugin_id"]) ? $context["plugin_id"] : null))), 3 => "clearfix");
         // line 56
-        echo "<section";
+        echo "
+";
+        // line 57
+        echo $this->env->getExtension('sandbox')->ensureToStringAllowed($this->env->getExtension('drupal_core')->escapeFilter($this->env, $this->env->getExtension('drupal_core')->attachLibrary("vectorplayground/sidebar-right"), "html", null, true));
+        echo "
+
+<section";
+        // line 59
         echo $this->env->getExtension('sandbox')->ensureToStringAllowed($this->env->getExtension('drupal_core')->escapeFilter($this->env, $this->getAttribute((isset($context["attributes"]) ? $context["attributes"] : null), "addClass", array(0 => (isset($context["classes"]) ? $context["classes"] : null)), "method"), "html", null, true));
         echo ">
   ";
-        // line 57
+        // line 60
         echo $this->env->getExtension('sandbox')->ensureToStringAllowed($this->env->getExtension('drupal_core')->escapeFilter($this->env, (isset($context["title_prefix"]) ? $context["title_prefix"] : null), "html", null, true));
         echo "
   ";
-        // line 58
+        // line 61
         if ((isset($context["label"]) ? $context["label"] : null)) {
-            // line 59
+            // line 62
             echo "    <h2";
             echo $this->env->getExtension('sandbox')->ensureToStringAllowed($this->env->getExtension('drupal_core')->escapeFilter($this->env, $this->getAttribute((isset($context["title_attributes"]) ? $context["title_attributes"] : null), "addClass", array(0 => "block-title"), "method"), "html", null, true));
             echo ">";
@@ -63,37 +70,32 @@ class __TwigTemplate_e199280a0535a9c7baa46dbba014f59c67bfcb50b8f510ff97cf0457504
             echo "</h2>
   ";
         }
-        // line 61
+        // line 64
         echo "  ";
         echo $this->env->getExtension('sandbox')->ensureToStringAllowed($this->env->getExtension('drupal_core')->escapeFilter($this->env, (isset($context["title_suffix"]) ? $context["title_suffix"] : null), "html", null, true));
         echo "
 
   ";
-        // line 63
+        // line 66
         $this->displayBlock('content', $context, $blocks);
-        // line 70
+        // line 69
         echo "</section>
 ";
     }
 
-    // line 63
+    // line 66
     public function block_content($context, array $blocks = array())
     {
-        // line 64
-        echo "    <div class=\"row\">
-      <div class=\"col-sm-12\">
-        ";
-        // line 66
+        // line 67
+        echo "    ";
         echo $this->env->getExtension('sandbox')->ensureToStringAllowed($this->env->getExtension('drupal_core')->escapeFilter($this->env, (isset($context["content"]) ? $context["content"] : null), "html", null, true));
         echo "
-      </div>
-    <div>
   ";
     }
 
     public function getTemplateName()
     {
-        return "sites/all/themes/vectorplayground/templates/block/block--footercopyright.html.twig";
+        return "sites/all/themes/vectorplayground/templates/block/block--views-block--social-buttons-block-1.html.twig";
     }
 
     public function isTraitable()
@@ -103,7 +105,7 @@ class __TwigTemplate_e199280a0535a9c7baa46dbba014f59c67bfcb50b8f510ff97cf0457504
 
     public function getDebugInfo()
     {
-        return array (  87 => 66,  83 => 64,  80 => 63,  75 => 70,  73 => 63,  67 => 61,  59 => 59,  57 => 58,  53 => 57,  48 => 56,  46 => 52,  45 => 51,  44 => 49,);
+        return array (  90 => 67,  87 => 66,  82 => 69,  80 => 66,  74 => 64,  66 => 62,  64 => 61,  60 => 60,  56 => 59,  51 => 57,  48 => 56,  46 => 52,  45 => 51,  44 => 49,);
     }
 }
 /* {#*/
@@ -161,6 +163,9 @@ class __TwigTemplate_e199280a0535a9c7baa46dbba014f59c67bfcb50b8f510ff97cf0457504
 /*     'clearfix',*/
 /*   ]*/
 /* %}*/
+/* */
+/* {{ attach_library('vectorplayground/sidebar-right') }}*/
+/* */
 /* <section{{ attributes.addClass(classes) }}>*/
 /*   {{ title_prefix }}*/
 /*   {% if label %}*/
@@ -169,11 +174,7 @@ class __TwigTemplate_e199280a0535a9c7baa46dbba014f59c67bfcb50b8f510ff97cf0457504
 /*   {{ title_suffix }}*/
 /* */
 /*   {% block content %}*/
-/*     <div class="row">*/
-/*       <div class="col-sm-12">*/
-/*         {{ content }}*/
-/*       </div>*/
-/*     <div>*/
+/*     {{ content }}*/
 /*   {% endblock %}*/
 /* </section>*/
 /* */
