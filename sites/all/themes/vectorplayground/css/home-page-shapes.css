@@ -166,13 +166,11 @@
 	width: 50%;
 	height: 100%;
 	padding: 50px;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .shape-content-gallery-full {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-around;
 	list-style-type: none;
 	padding: 0;
 	margin-top: 50px;
@@ -182,10 +180,10 @@
 }
 
 .shape-content-gallery-full li {
-	flex: 1;
-	min-width: 150px;
-	min-height: 150px;
 	display: inline-block;
+	vertical-align: top;
+	width: 150px;
+	height: 150px;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: 300px;
@@ -234,9 +232,11 @@
 
 .shape-content-tools-full li {
 	display: inline-block;
+	vertical-align: top;
 	padding: 20px;
 	background-color: rgba(233, 36, 113, 0.57);
 	margin-right: 10px;
+	margin-bottom: 10px;
 }
 
 .main-shape-content .close-button {

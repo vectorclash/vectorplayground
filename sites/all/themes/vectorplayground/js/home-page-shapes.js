@@ -104,7 +104,7 @@ function animateShape(shape) {
 	var windowWidth = window.innerWidth * 0.8;
 	var windowHeight = window.innerHeight - 300;
 
-	var endX = getRandomArbitrary(0, windowWidth);
+	var endX = getRandomArbitrary(0, windowWidth-100);
 	var endY = 200 + Math.random() * windowHeight;
 
 	var midX = getRandomArbitrary(shapeRect.left, endX);
@@ -289,6 +289,10 @@ function randomRGBA() {
 	return "rgba(" + randomRGBValue() + ", " + randomRGBValue() + ", " + randomRGBValue() + ", 0.7)";
 }
 
+function randomRGB() {
+	return "rgba(" + randomRGBValue() + ", " + randomRGBValue() + ", " + randomRGBValue() + ")";
+}
+
 function randomRGBValue() {
 	return Math.round(Math.random()*255);
 }
@@ -313,12 +317,13 @@ function destroyFullScreenImage(event) {
 }
 
 function onGalleryItemOver(event) {
-	TweenMax.to(event.currentTarget, 0.4, {flex:2, ease:Bounce.easeOut});
+	var randomBorder = "15px solid " + randomRGB();
+	TweenMax.to(event.currentTarget, 0.4, {borderBottom:randomBorder, ease:Bounce.easeOut});
 	//TweenMax.to(event.currentTarget, 0.3, {borderRadius:"20px", backgroundSize:"400px", borderBottom:"2px solid blue", ease:Bounce.easeOut});
 }
 
 function onGalleryItemOut(event) {
-	TweenMax.to(event.currentTarget, 0.4, {flex:1, ease:Bounce.easeOut});
+	TweenMax.to(event.currentTarget, 0.4, {borderBottom:"0px solid #333", ease:Bounce.easeOut});
 	//TweenMax.to(event.currentTarget, 0.2, {borderRadius:"0px", backgroundSize:"500px", borderBottom:"0px solid white", ease:Quad.easeOut});
 }
 
