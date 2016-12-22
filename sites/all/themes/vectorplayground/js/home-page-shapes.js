@@ -384,6 +384,7 @@ function onShapeOver(event) {
 
 	var background = event.currentTarget.querySelector(".shape-background");
 	var title = event.currentTarget.querySelector(".shape-title");
+	TweenMax.set(title, {display:"block"});
 	if(title) {
 		var split = new SplitText(title, {type:"chars, words, lines"});
 		TweenMax.staggerFrom(split.chars, 0.6, {cycle:{y:[20, -20]}, alpha:0, ease:Expo.easeOut}, 0.04);

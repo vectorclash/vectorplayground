@@ -44,6 +44,7 @@
   color: white;
   white-space: nowrap;
   z-index: 10;
+	display: none;
 }
 
 .home-shape h1, .home-shape h2, .home-shape h3, .home-shape h4 {
@@ -311,6 +312,8 @@
 		width: 100%;
 		padding: 20px;
 		height: auto;
+		overflow-y: visible;
+		overflow-x: visible;
 	}
 
 	.main-shape-content .close-button {
