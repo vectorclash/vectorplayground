@@ -8,9 +8,17 @@ var colorShapes;
 var shapeContainer;
 var activeImage;
 var FSImageActive = false;
+var contentIsActive = false;
+
+var minAnimationTime = 5;
+var maxAnimationTime = 10;
 
 function init() {
 	dissmissAlerts();
+
+	var scrollContainer = document.querySelector('.scroll-container');
+	scrollContainer.className = "no-scroll-container";
+
 	mainContainer = document.querySelector(".main-container");
 	shapeContainer = document.createElement("div");
 	shapeContainer.classList.add("shape-container");
@@ -20,6 +28,11 @@ function init() {
 
 	for(var i = 0; i < shapes.length; i++) {
 		var shape = shapes[i];
+
+		var shapeHitArea = document.createElement('div');
+		shapeHitArea.classList.add('shape-hit-area');
+		shape.appendChild(shapeHitArea);
+
 		var sizeModifier = shape.querySelector(".shape-size").textContent;
 		var backgroundImage = shape.querySelector("img").src;
 
@@ -34,7 +47,7 @@ function init() {
 		backgroundDiv.classList.add("shape-background");
 		shape.appendChild(backgroundDiv);
 
-		TweenMax.set(shape, {alpha:0.7, x:Math.random()*window.innerWidth, y:200+(Math.random()*(window.innerHeight-200)), width: shapeSizeDefault * sizeModifier, height: shapeSizeDefault * sizeModifier});
+		TweenMax.set(shape, {alpha:0.7, x:Math.random()*window.innerWidth-150, y:200+(Math.random()*(window.innerHeight-400)), width: shapeSizeDefault * sizeModifier, height: shapeSizeDefault * sizeModifier});
 		TweenMax.from(shape, 1, {alpha:0, delay:i*0.2, ease:Elastic.easeOut});
 
 		shape.size = shapeSizeDefault * sizeModifier;
@@ -63,20 +76,20 @@ function init() {
 			}
 		}
 
-		var toolsContent = shape.querySelector(".shape-content-tools").querySelectorAll("li");
+		var toolsContent = shape.querySelector(".shape-tools");
 		if(toolsContent) {
+			var toolsContentChildren = toolsContent.querySelectorAll("li");
 			shape.myTools = new Array();
-			for(var i = 0; i < toolsContent.length; i++) {
-				shape.myTools.push(toolsContent[i].textContent);
+			for(var i = 0; i < toolsContentChildren.length; i++) {
+				shape.myTools.push(toolsContentChildren[i].textContent);
 			}
 		}
 
 		shapeContainer.appendChild(shape);
 
 		TweenMax.delayedCall(0.2, animateShape, [shape]);
-
-		shape.addEventListener("mouseover", onShapeOver);
-		shape.addEventListener("click", onShapeClick);
+		shape.shapeClickHammer = new Hammer(shapeHitArea);
+		shapeHitArea.addEventListener("mouseover", onShapeOver);
 	}
 
 	for(var i = 0; i < shapes.length*3; i++) {
@@ -99,13 +112,13 @@ function init() {
 function animateShape(shape) {
 	var shapeRect = shape.getBoundingClientRect();
 
-	var ranTime = 5 + Math.random() * 10;
+	var ranTime = minAnimationTime + Math.random() * maxAnimationTime;
 	var windowMin = -(window.innerWidth / 5);
 	var windowWidth = window.innerWidth * 0.8;
 	var windowHeight = window.innerHeight - 300;
 
 	var endX = getRandomArbitrary(0, windowWidth-100);
-	var endY = 200 + Math.random() * windowHeight;
+	var endY = 250 + Math.random() * windowHeight -100;
 
 	var midX = getRandomArbitrary(shapeRect.left, endX);
 	var midY = getRandomArbitrary(shapeRect.top, endY);
@@ -164,6 +177,7 @@ function destroySummariesWipe() {
 }
 
 function buildContent(shapeID) {
+	contentIsActive = true;
 	destroySummariesWipe();
 
 	var newContent = document.createElement("div");
@@ -196,6 +210,10 @@ function buildContent(shapeID) {
 	closeButton.classList.add("close-button");
 	contentImage.appendChild(closeButton);
 
+	var mobileCloseButton = document.createElement("div");
+	mobileCloseButton.classList.add("mobile-close-button");
+	mainContainer.appendChild(mobileCloseButton);
+
 	var contentContainer = document.createElement("div");
 	contentContainer.classList.add("shape-content-container");
 	newContent.appendChild(contentContainer);
@@ -207,6 +225,10 @@ function buildContent(shapeID) {
 	galleryContainer.classList.add("shape-content-gallery-full");
 	contentBody.appendChild(galleryContainer);
 
+	var mobileCarousel = document.createElement('div');
+	mobileCarousel.classList.add('main-carousel');
+	contentBody.appendChild(mobileCarousel);
+
 	for(var i = 0; i < activeShape.myGallery.length; i++) {
 		var item = document.createElement("li");
 		galleryContainer.appendChild(item);
@@ -215,17 +237,29 @@ function buildContent(shapeID) {
 		item.key = i;
 		item.addEventListener("mouseover", onGalleryItemOver);
 		item.addEventListener("mouseout", onGalleryItemOut);
-		item.addEventListener("click", onGalleryItemClick);
+		// item.addEventListener("click", onGalleryItemClick);
+		var itemHammer = new Hammer(item);
+		itemHammer.on('tap', onGalleryItemClick);
+
+		// build mobile carousel items
+		var carouselItem = document.createElement('div');
+		carouselItem.classList.add('carousel-cell');
+		var carouselItemContent = document.createElement('img');
+		carouselItemContent.src = activeShape.myGallery[i];
+		carouselItem.appendChild(carouselItemContent);
+		mobileCarousel.appendChild(carouselItem);
 	}
 
-	var toolsContainer = document.createElement("ul");
-	toolsContainer.classList.add("shape-content-tools-full");
-	contentBody.appendChild(toolsContainer);
+	if(activeShape.myTools) {
+		var toolsContainer = document.createElement("ul");
+		toolsContainer.classList.add("shape-content-tools-full");
+		contentBody.appendChild(toolsContainer);
 
-	for(var i = 0; i < activeShape.myTools.length; i++) {
-		var item = document.createElement("li");
-		item.textContent = activeShape.myTools[i];
-		toolsContainer.appendChild(item);
+		for(var i = 0; i < activeShape.myTools.length; i++) {
+			var item = document.createElement("li");
+			item.textContent = activeShape.myTools[i];
+			toolsContainer.appendChild(item);
+		}
 	}
 
 	contentBody.classList.add("shape-content-body-full");
@@ -239,7 +273,9 @@ function buildContent(shapeID) {
 	TweenMax.staggerFrom(contentBody.childNodes, 1, {y:100, alpha:0, delay:0, ease:Bounce.easeOut}, 0.1);
 
 	TweenMax.staggerFrom(galleryContainer.childNodes, 1, {y:100, alpha:0, delay:2.5, ease:Bounce.easeOut}, 0.1);
-	TweenMax.staggerFrom(toolsContainer.childNodes, 1, {y:100, alpha:0, delay:4, ease:Bounce.easeOut}, 0.1);
+	if(toolsContainer) {
+		TweenMax.staggerFrom(toolsContainer.childNodes, 1, {y:100, alpha:0, delay:4, ease:Bounce.easeOut}, 0.1);
+	}
 
 	//var titleSplit = new SplitText(contentTitle, {type:"chars, words, lines"});
 	//TweenMax.staggerFrom(titleSplit.chars, 2, {cycle:{y:[100, -100, 50, -50, 20, -20]}, alpha:0, ease:Elastic.easeOut, delay:1.2}, -0.02);
@@ -251,11 +287,29 @@ function buildContent(shapeID) {
 	TweenMax.from(closeButton, 1, {rotation:250, y:-200, ease:Bounce.easeOut, delay:1.5});
 	TweenMax.to(closeButton, 1, {alpha:0.9, ease:Bounce.easeOut, delay:1.5});
 
-	TweenMax.delayedCall(2, addContentListeners, [contentImage]);
+	TweenMax.from(mobileCloseButton, 1, {rotation:250, y:-200, ease:Bounce.easeOut, delay:1.5});
+	TweenMax.to(mobileCloseButton, 1, {alpha:0.9, ease:Bounce.easeOut, delay:1.5});
+
+	TweenMax.delayedCall(1, addContentListeners, [contentImage]);
+	TweenMax.delayedCall(2, activateCarousel, [mobileCarousel]);
+}
+
+function activateCarousel(carousel) {
+	var flkty = new Flickity( carousel, {
+	  imagesLoaded: true,
+	  percentPosition: false,
+		wrapAround: true,
+		freeScroll: true,
+		prevNextButtons: false
+	});
 }
 
 function addContentListeners(object) {
-	object.addEventListener("click", removeContent);
+	var imageHammer = new Hammer(object);
+	imageHammer.on('tap', removeContent);
+	var closeButton = document.querySelector('.mobile-close-button');
+	var closeHammer = new Hammer(closeButton);
+	closeHammer.on('tap', removeContent);
 	object.addEventListener("mouseover", onHomeImageOver);
 	object.addEventListener("mouseout", onHomeImageOut);
 }
@@ -308,7 +362,7 @@ function getRandomArbitrary(min, max) {
 // EVENT HANDLERS
 
 function onGalleryItemClick(event) {
-	showFullImage(event.currentTarget.style.backgroundImage);
+	showFullImage(event.target.style.backgroundImage);
 }
 
 function destroyFullScreenImage(event) {
@@ -317,23 +371,24 @@ function destroyFullScreenImage(event) {
 }
 
 function onGalleryItemOver(event) {
-	var randomBorder = "15px solid " + randomRGB();
-	TweenMax.to(event.currentTarget, 0.4, {borderBottom:randomBorder, ease:Bounce.easeOut});
-	//TweenMax.to(event.currentTarget, 0.3, {borderRadius:"20px", backgroundSize:"400px", borderBottom:"2px solid blue", ease:Bounce.easeOut});
+	TweenMax.to(event.currentTarget, 1, {flex:1.5, ease:Elastic.easeOut});
 }
 
 function onGalleryItemOut(event) {
-	TweenMax.to(event.currentTarget, 0.4, {borderBottom:"0px solid #333", ease:Bounce.easeOut});
-	//TweenMax.to(event.currentTarget, 0.2, {borderRadius:"0px", backgroundSize:"500px", borderBottom:"0px solid white", ease:Quad.easeOut});
+	TweenMax.to(event.currentTarget, 0.4, {flex:1, ease:Bounce.easeOut});
 }
 
 function onHomeImageOver(event) {
-	TweenMax.to(event.currentTarget.querySelector('.shape-content-titles'), 0.3, {boxShadow:"-20px 20px 80px rgba(226, 18, 74, 0.2)", ease:Bounce.easeOut});
+	if(window.innerWidth > 767) {
+		TweenMax.to(event.currentTarget.querySelector('.shape-content-titles'), 0.3, {boxShadow:"-20px 20px 80px rgba(226, 18, 74, 0.2)", ease:Bounce.easeOut});
+	}
 	TweenMax.to(event.currentTarget.querySelector('.close-button'), 0.3, {scaleX:1.1, scaleY:1.1, alpha:0.5, ease:Bounce.easeOut});
 }
 
 function onHomeImageOut(event) {
-	TweenMax.to(event.currentTarget.querySelector('.shape-content-titles'), 0.3, {boxShadow:"-5px 5px 40px rgba(28, 0, 54, 0.5)", ease:Bounce.easeOut});
+	if(window.innerWidth > 767) {
+		TweenMax.to(event.currentTarget.querySelector('.shape-content-titles'), 0.3, {boxShadow:"-5px 5px 40px rgba(28, 0, 54, 0.5)", ease:Bounce.easeOut});
+	}
 	TweenMax.to(event.currentTarget.querySelector('.close-button'), 0.1, {scaleX:1, scaleY:1, alpha:0.9, ease:Quad.easeOut});
 }
 
@@ -346,44 +401,58 @@ function onCloseOut(event) {
 }
 
 function removeContent(event) {
+	var mobileCloseButton = document.querySelectorAll('.mobile-close-button');
+	TweenMax.killTweensOf(mobileCloseButton);
+	TweenMax.to(mobileCloseButton, 1, {alpha:0, y:window.innerHeight/3, ease:Bounce.easeOut, delay:0.1, onComplete:removeCloseButtons, onCompleteParams:[mobileCloseButton]});
 	var content = document.querySelectorAll("div.main-shape-content.active");
 	for(var i = 0; i < content.length; i++) {
 		var deadContent = content[i];
 		deadContent.classList.remove("active");
 
 		TweenMax.staggerTo(deadContent.childNodes, 1, {y:window.innerHeight, alpha:0, ease:Quad.easeInOut}, -0.07);
-		TweenMax.to(deadContent, 1, {alpha:0, ease:Quad.easeInOut, onComplete:function(){mainContainer.removeChild(deadContent);}});
+		TweenMax.to(deadContent, 1, {alpha:0, ease:Quad.easeInOut, onComplete:function(){mainContainer.removeChild(deadContent);contentIsActive=false;}});
+	}
+}
+
+function removeCloseButtons(closeButtons) {
+	for(var i = 0; i < closeButtons.length; i++) {
+		var button = closeButtons[i];
+		button.parentNode.removeChild(button);
 	}
 }
 
 function onShapeClick(event) {
-	for(var i = 0; i < shapes.length; i++) {
-		if(event.currentTarget == shapes[i]) {
-			buildContent(i);
+	event.preventDefault();
+	if(!contentIsActive) {
+		for(var i = 0; i < shapes.length; i++) {
+			if(event.target.parentNode == shapes[i]) {
+				buildContent(i);
+				event.target.parentNode.shapeClickHammer.off('tap', onShapeClick);
+			}
 		}
 	}
 }
 
 function onShapeOver(event) {
 	event.preventDefault();
-	event.currentTarget.removeEventListener("mouseover", onShapeOver);
-	event.currentTarget.addEventListener("mouseout", onShapeOut);
+	event.target.removeEventListener("mouseover", onShapeOver);
+	event.target.addEventListener("mouseout", onShapeOut);
 
-	TweenMax.killTweensOf(event.currentTarget);
+	TweenMax.killTweensOf(event.target.parentNode);
 
-	var summary = event.currentTarget.querySelector(".shape-body-summary");
+	var summary = event.target.parentNode.querySelector(".shape-body-summary");
 	if(summary) {
 		buildSummary(summary.textContent);
 	}
 
-	var logo = event.currentTarget.querySelector(".shape-logo");
+	var logo = event.target.parentNode.querySelector(".shape-logo");
 	if(logo) {
 		TweenMax.set(logo, {transformOrigin:"50% 50%"});
 		TweenMax.from(logo, 0.5, {scaleX:0.5, scaleY:0.5, alpha:0, ease:Quad.easeOut});
 	}
 
-	var background = event.currentTarget.querySelector(".shape-background");
-	var title = event.currentTarget.querySelector(".shape-title");
+	var background = event.target.parentNode.querySelector(".shape-background");
+	var title = event.target.parentNode.querySelector(".shape-title");
 	TweenMax.set(title, {display:"block"});
 	if(title) {
 		var split = new SplitText(title, {type:"chars, words, lines"});
@@ -392,19 +461,25 @@ function onShapeOver(event) {
 	if(background) {
 		TweenMax.to(background, 0.5, {alpha:0, scaleX:1.4, scaleY:1.4, ease:Quad.easeOut});
 	}
+
+	event.target.parentNode.shapeClickHammer.on('tap', onShapeClick);
+	//event.currentTarget.addEventListener('click', onShapeClick);
+
+	//TweenMax.delayedCall(5, onShapeOut, [event]);
 }
 
 function onShapeOut(event) {
+	TweenMax.killDelayedCallsTo(onShapeOut);
 	destroySummaries();
-	event.currentTarget.removeEventListener("mouseout", onShapeOut);
-	var background = event.currentTarget.querySelector(".shape-background");
-	var title = event.currentTarget.querySelector(".shape-title");
+	event.target.removeEventListener("mouseout", onShapeOut);
+	var background = event.target.parentNode.querySelector(".shape-background");
+	var title = event.target.parentNode.querySelector(".shape-title");
 	if(title) {
 		var split = new SplitText(title, {type:"chars, words, lines"});
 		TweenMax.staggerTo(split.chars, 0.5, {cycle:{y:[20, -20]}, alpha:0, ease:Quad.easeOut}, 0.02);
 	}
 	if(background) {
-		TweenMax.to(background, 0.5, {alpha:1, scaleX:1, scaleY:1, ease:Quad.easeInOut, onComplete:resetEventListeners, onCompleteParams:[event.currentTarget]});
+		TweenMax.to(background, 0.5, {alpha:1, scaleX:1, scaleY:1, ease:Quad.easeInOut, onComplete:resetEventListeners, onCompleteParams:[event.target]});
 	}
 }
 
@@ -412,8 +487,12 @@ function onHomeResize(event) {
 	var scaleModifier;
 
 	if(window.innerWidth > 600) {
+		minAnimationTime = 5;
+		maxAnimationTime = 10;
 		scaleModifier = 1;
 	} else {
+		minAnimationTime = 2;
+		maxAnimationTime = 5;
 		scaleModifier = 0.7;
 	}
 
@@ -429,6 +508,7 @@ function onHomeResize(event) {
 }
 
 function resetEventListeners(shape) {
-	animateShape(shape);
+	animateShape(shape.parentNode);
+	shape.parentNode.shapeClickHammer.off('tap', onShapeClick);
 	shape.addEventListener("mouseover", onShapeOver);
 }

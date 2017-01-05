@@ -1,3 +1,12 @@
+* {
+	box-sizing: border-box;
+	-webkit-overflow-scrolling: touch;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 body, html {
 	height: 100%;
 }
@@ -11,6 +20,23 @@ body {
 	font-family: 'Quicksand', sans-serif;
 	font-size: 16px;
 	margin: 0 !important;
+}
+
+.background-fixed {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-image: url(../img/nebula_stars.png), linear-gradient(320deg, #f5eb66, #ec0659 70%, #1d0333 99%);
+	background-size: cover;
+	background-position: center;
+  background-attachment: fixed;
+	z-index: 0;
+}
+
+.scroll-container {
+	height: 100%;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 
 h1, h2, h3, h4 {
@@ -41,7 +67,7 @@ form {
 .form-control {
 	border-radius: 0;
 	background-color: rgba(255, 255, 255, 0);
-	background-image: linear-gradient(42deg, rgba(117, 115, 115, 0.5), rgba(198, 3, 100, 0));
+	background-image: linear-gradient(42deg, rgba(117, 115, 115, 0.8), rgba(198, 3, 100, 0.3));
 	color: rgb(232, 232, 232);
 	border: 0;
 	outline: none;

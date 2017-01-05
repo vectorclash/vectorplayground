@@ -6,16 +6,20 @@ var shape;
 var shapePoints = 6;
 var shapeDepth = 2;
 var shapeAng = 360/shapePoints;
-var shapeSize = 40;
-var lineThickness = 1;
+var shapeSize = 82;
+var lineThickness = 1.5;
+
+var homeLink;
 
 function buildLogo() {
 	stage = new createjs.Stage("logo");
-	stage.addEventListener("mouseenter", onStageOver);
-	//stage.addEventListener("stagemousedown", onStageClick);
+	if(shape) {
+		stage.removeChild(shape);
+	}
   TweenLite.ticker.addEventListener("tick", loop, this);
 
-  createjs.Touch.enable(stage);
+	homeLink = document.querySelector('.home-link');
+	homeLink.addEventListener('mouseover', onHomeLinkOver);
 
   shape = mCube(shapeSize, getRandomNumber(0.0, 1.0));
   shape.x = stage.canvas.width/2;
@@ -23,16 +27,8 @@ function buildLogo() {
   stage.addChild(shape);
 }
 
-function onStageClick(event) {
-	window.location.href = "/";
-}
-
-function onStageOver(event) {
-  stage.removeChild(shape);
-  shape = mCube(shapeSize, getRandomNumber(0.0, 1.0));
-  shape.x = stage.canvas.width/2;
-  shape.y = stage.canvas.height/2;
-  stage.addChild(shape);
+function onHomeLinkOver(event) {
+  buildLogo();
 }
 
 function loop() {

@@ -44,7 +44,7 @@ function onHBClick(event) {
   } else {
     isNavOpen = false;
     TweenMax.to("#upper-bun", 0.5, {morphSVG:"#upper-bun", ease:Elastic.easeOut});
-    TweenMax.to("#veggie-patty", 0.5, {morphSVG:"#veggie-patty", delay:0.5, ease:Elastic.easeOut});
+    TweenMax.to("#veggie-patty", 0.5, {morphSVG:"#veggie-patty", fill:0x3a0460, delay:0.5, ease:Elastic.easeOut});
     TweenMax.to("#veggie-patty", 0.5, {scaleX:1, scaleY:1, alpha:1, ease:Bounce.easeOut});
     TweenMax.to("#lower-bun", 0.5, {morphSVG:"#lower-bun", ease:Elastic.easeOut});
 
@@ -88,19 +88,23 @@ function randomRGBAObject() {
 }
 
 function onHBOver(event) {
-  TweenMax.to("#upper-bun", 0.5, {fill:0x848484, ease:Back.easeOut});
-  TweenMax.to("#veggie-patty", 0.5, {fill:0x333333, ease:Back.easeOut});
-  TweenMax.to("#lower-bun", 0.5, {fill:0x848484, ease:Back.easeOut});
+  if(window.innerWidth > 767) {
+    TweenMax.to("#upper-bun", 0.5, {fill:0x848484, ease:Back.easeOut});
+    TweenMax.to("#veggie-patty", 0.5, {fill:0x333333, ease:Back.easeOut});
+    TweenMax.to("#lower-bun", 0.5, {fill:0x848484, ease:Back.easeOut});
+  }
 }
 
 function onHBOut(event) {
-  TweenMax.to("#upper-bun", 0.5, {fill:0x3a0460, ease:Back.easeOut});
-  if(isNavOpen) {
-    TweenMax.to("#veggie-patty", 0.5, {fill:"rgb(11, 146, 176)", ease:Back.easeOut});
-  } else {
-    TweenMax.to("#veggie-patty", 0.5, {fill:0x3a0460, ease:Back.easeOut});
+  if(window.innerWidth > 767) {
+    TweenMax.to("#upper-bun", 0.5, {fill:0x3a0460, ease:Back.easeOut});
+    if(isNavOpen) {
+      TweenMax.to("#veggie-patty", 0.5, {fill:"rgb(11, 146, 176)", ease:Back.easeOut});
+    } else {
+      TweenMax.to("#veggie-patty", 0.5, {fill:0x3a0460, ease:Back.easeOut});
+    }
+    TweenMax.to("#lower-bun", 0.5, {fill:0x3a0460, ease:Back.easeOut});
   }
-  TweenMax.to("#lower-bun", 0.5, {fill:0x3a0460, ease:Back.easeOut});
 }
 
 window.addEventListener("load", initNav);

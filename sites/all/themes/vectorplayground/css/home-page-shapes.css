@@ -16,6 +16,14 @@
 	z-index: 500;
 }
 
+.home-shape .shape-hit-area {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 500;
+	background-color: rgba(5, 5, 5, 0);
+}
+
 .home-shape .shape-background {
 	position: absolute;
 	top: 0;
@@ -91,7 +99,7 @@
 	display: none;
 }
 
-.home-shape .shape-content-tools {
+.home-shape .shape-tools {
 	display: none;
 }
 
@@ -169,28 +177,47 @@
 	padding: 50px;
 	overflow-y: scroll;
 	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
 }
 
 .shape-content-gallery-full {
+	display: flex;
+	flex-wrap: wrap;
 	list-style-type: none;
 	padding: 0;
 	margin-top: 50px;
-	border-top: 1px solid rgba(255, 255, 255, 0.2);
-	padding-top: 50px;
+	margin-right: -10px;
+	margin-bottom: -10px;
 	overflow: hidden;
 }
 
 .shape-content-gallery-full li {
-	display: inline-block;
+	flex: 1;
+	min-width: 25%;
 	vertical-align: top;
-	width: 150px;
 	height: 150px;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: 300px;
+	background-size: 500%;
 	cursor: pointer;
 	margin-right: 10px;
 	margin-bottom: 10px;
+}
+
+.main-shape-content .main-carousel {
+	display: none;
+	margin-top: 50px;
+	margin-bottom: 20px;
+}
+
+.main-shape-content .carousel-cell {
+  margin-right: 20px;
+  overflow: hidden;
+}
+
+.main-shape-content .carousel-cell img {
+  display: block;
+  height: 300px;
 }
 
 .shape-content-gallery-full li:not(:last-child) {
@@ -215,6 +242,21 @@
 	border: 20px solid rgb(250, 34, 112);
 }
 
+.mobile-close-button {
+	position: fixed;
+	top: 22px;
+	left: 20px;
+	width: 80px;
+	height: 80px;
+	background-image: url(../img/close.svg);
+	opacity: 0.9;
+	display: none;
+	cursor: pointer;
+	z-index: 20000;
+	box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+	border-radius: 50%;
+}
+
 .fullscreen-image .close-button {
 	position: fixed;
 	top: 22px;
@@ -223,6 +265,8 @@
 	height: 80px;
 	background-image: url(../img/close.svg);
 	opacity: 0.9;
+	box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+	border-radius: 50%;
 }
 
 .shape-content-tools-full {
@@ -248,6 +292,8 @@
 	height: 50px;
 	background-image: url(../img/close.svg);
 	opacity: 0;
+	box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+	border-radius: 50%;
 }
 
 .color-shape {
@@ -272,6 +318,14 @@
 }
 
 @media (max-width: 767px) {
+	.mobile-close-button {
+		display: block;
+		top: 21px;
+		right: 20px;
+		width: 50px;
+		height: 50px;
+	}
+
 	.main-shape-content {
 		overflow: scroll;
 	}
@@ -320,10 +374,23 @@
 		position: fixed;
 		top: 22px;
 		left: 20px;
+		display: none;
 	}
 
 	.main-shape-summary {
 		font-size: 3rem;
+	}
+
+	.main-shape-content .main-carousel {
+		display: block;
+	}
+
+	.shape-content-gallery-full {
+		display: none;
+	}
+
+	.shape-content-gallery-full li {
+		height: 100px;
 	}
 
 	.fullscreen-image .close-button {

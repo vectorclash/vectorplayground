@@ -2,14 +2,18 @@ main-styles:
   css:
     theme:
       css/main.css: {}
+  js:
+    js/main.js: {}
 
 home-page-shapes:
   css:
     theme:
       css/home-page-shapes.css: {}
+      css/flickity.min.css: {}
   js:
     js/home-page-shapes.js: {}
     js/jquery.matchHeight-min.js: {}
+    js/flickity.pkgd.min.js: {}
 
 tweenmax:
   version: 1.19.0
@@ -19,6 +23,11 @@ tweenmax:
     js/plugins/BezierPlugin.min.js: {}
     js/plugins/CSSPlugin.min.js: {}
     js/plugins/MorphSVGPlugin.min.js: {}
+
+hammer:
+  js:
+    js/hammer.min.js: {}
+    js/hammer-time.min.js: {}
 
 navbar:
   css:
