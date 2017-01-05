@@ -58,6 +58,26 @@ h3 {
   margin-bottom: 10px;
 }
 
+/*default link styles*/
+
+article a {
+	color: rgb(255, 210, 234);
+	cursor: pointer;
+}
+
+article a:link {
+	color: rgb(255, 210, 234);
+}
+
+article a:hover {
+	color: rgb(45, 0, 91);
+	text-decoration: none;
+}
+
+article a:active {
+	color: rgb(255, 210, 234);
+}
+
 /*form styles*/
 
 form {

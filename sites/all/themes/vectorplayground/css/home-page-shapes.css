@@ -304,6 +304,26 @@
 	border-radius: 50%;
 }
 
+/*content full links style*/
+
+.shape-content-body-full a {
+	color: rgb(255, 210, 234);
+	cursor: pointer;
+}
+
+.shape-content-body-full a:link {
+	color: rgb(255, 210, 234);
+}
+
+.shape-content-body-full a:hover {
+	color: rgb(45, 0, 91);
+	text-decoration: none;
+}
+
+.shape-content-body-full a:active {
+	color: rgb(255, 210, 234);
+}
+
 @media (max-width: 948px) {
 	.main-shape-content .shape-content-body-full {
 		width: 100%;
