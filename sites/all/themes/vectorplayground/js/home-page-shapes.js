@@ -272,9 +272,9 @@ function buildContent(shapeID) {
 
 	TweenMax.staggerFrom(contentBody.childNodes, 1, {y:100, alpha:0, delay:0, ease:Bounce.easeOut}, 0.1);
 
-	TweenMax.staggerFrom(galleryContainer.childNodes, 1, {y:100, alpha:0, delay:2.5, ease:Bounce.easeOut}, 0.1);
+	TweenMax.staggerFrom(galleryContainer.childNodes, 1, {y:100, alpha:0, delay:1.5, ease:Bounce.easeOut}, 0.1);
 	if(toolsContainer) {
-		TweenMax.staggerFrom(toolsContainer.childNodes, 1, {y:100, alpha:0, delay:4, ease:Bounce.easeOut}, 0.1);
+		TweenMax.staggerFrom(toolsContainer.childNodes, 1, {y:100, alpha:0, delay:2, ease:Bounce.easeOut}, 0.1);
 	}
 
 	//var titleSplit = new SplitText(contentTitle, {type:"chars, words, lines"});
@@ -423,6 +423,7 @@ function removeCloseButtons(closeButtons) {
 
 function onShapeClick(event) {
 	event.preventDefault();
+	disableShape(event.target);
 	if(!contentIsActive) {
 		for(var i = 0; i < shapes.length; i++) {
 			if(event.target.parentNode == shapes[i]) {
@@ -471,15 +472,19 @@ function onShapeOver(event) {
 function onShapeOut(event) {
 	TweenMax.killDelayedCallsTo(onShapeOut);
 	destroySummaries();
+	disableShape(event.target);
+}
+
+function disableShape(shape) {
 	event.target.removeEventListener("mouseout", onShapeOut);
-	var background = event.target.parentNode.querySelector(".shape-background");
-	var title = event.target.parentNode.querySelector(".shape-title");
+	var background = shape.parentNode.querySelector(".shape-background");
+	var title = shape.parentNode.querySelector(".shape-title");
 	if(title) {
 		var split = new SplitText(title, {type:"chars, words, lines"});
 		TweenMax.staggerTo(split.chars, 0.5, {cycle:{y:[20, -20]}, alpha:0, ease:Quad.easeOut}, 0.02);
 	}
 	if(background) {
-		TweenMax.to(background, 0.5, {alpha:1, scaleX:1, scaleY:1, ease:Quad.easeInOut, onComplete:resetEventListeners, onCompleteParams:[event.target]});
+		TweenMax.to(background, 0.5, {alpha:1, scaleX:1, scaleY:1, ease:Quad.easeInOut, onComplete:resetEventListeners, onCompleteParams:[shape]});
 	}
 }
 
