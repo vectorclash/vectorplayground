@@ -371,7 +371,7 @@ function destroyFullScreenImage(event) {
 }
 
 function onGalleryItemOver(event) {
-	TweenMax.to(event.currentTarget, 1, {flex:1.5, ease:Elastic.easeOut});
+	TweenMax.to(event.currentTarget, 1, {flex:5, ease:Elastic.easeOut});
 }
 
 function onGalleryItemOut(event) {
@@ -476,7 +476,7 @@ function onShapeOut(event) {
 }
 
 function disableShape(shape) {
-	event.target.removeEventListener("mouseout", onShapeOut);
+	shape.removeEventListener("mouseout", onShapeOut);
 	var background = shape.parentNode.querySelector(".shape-background");
 	var title = shape.parentNode.querySelector(".shape-title");
 	if(title) {

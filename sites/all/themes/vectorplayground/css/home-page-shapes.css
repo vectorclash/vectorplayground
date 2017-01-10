@@ -181,6 +181,7 @@
 }
 
 .shape-content-gallery-full {
+	display: -webkit-flex;
 	display: flex;
 	flex-wrap: wrap;
 	list-style-type: none;
@@ -192,8 +193,8 @@
 }
 
 .shape-content-gallery-full li {
-	flex: 1;
-	min-width: 25%;
+	-webkit-flex: 1 1 25%;
+	flex: 1 1 25%;
 	vertical-align: top;
 	height: 150px;
 	background-position: center;
